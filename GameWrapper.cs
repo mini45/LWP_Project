@@ -12,6 +12,8 @@ namespace FlightControll
         PictureBox picturebox;
         Timer spawnPlane;
         Timer reDraw;
+        Kollision kollision;
+        
         
         
 
@@ -22,7 +24,7 @@ namespace FlightControll
             //this.WindowState = FormWindowState.Maximized;
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             //this.ShowInTaskbar = false;
-            picturebox.Image = new Bitmap("../../bild1.jpg");
+            picturebox.Image = new Bitmap("../../runway.png");
             picturebox.Size = formSize;
             picturebox.SizeMode = PictureBoxSizeMode.Zoom;
 
@@ -30,6 +32,7 @@ namespace FlightControll
 
             this.picturebox = picturebox;
             TimerInit();
+            kollision = new Kollision();
         }
 
         private void TimerInit()
@@ -63,16 +66,36 @@ namespace FlightControll
         void reDraw_Tick(object sender, EventArgs e)
         {
             picturebox.Invalidate();
+
+            
+
         }
 
 
         public void Paint(Graphics g) 
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
             for (int idx = 0; idx < planes.Count; idx++)
             {
+                kollision.GetPlanes(planes[idx].MiddlePoint());
                 planes[idx].Draw(g);
+                
             }
+
+
+            if (planes.Count > 1)
+            {
+                kollision.Deteckt(planes[0].Radius);
+            }
+            
+
+        }
+
+        public void WrapperStop()
+        {
+            reDraw.Stop();
+            spawnPlane.Stop();
         }
 
 
