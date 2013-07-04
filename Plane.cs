@@ -8,7 +8,8 @@ namespace FlightControll
 {
     public class Plane
     {
-        private Bitmap _planeBitmap = new Bitmap("C:\\Documents and Settings\\Administrator\\My Documents\\FlightControll\\plane.png");
+        private Bitmap _planeBitmap = new Bitmap("../../plane_picture.png");
+        private Bitmap _planeOriginal = new Bitmap("../../plane_picture.png");
         private float _xSpeed, _ySpeed, _xPos, _yPos, _radius = 20, _angle;
         private List<Point> _way;
         private float _maxX, _maxY;
@@ -25,22 +26,58 @@ namespace FlightControll
         {
             Random rnd = new Random();
 
-            //int option = rnd.Next(0, 1);
-            int option = 0;
+            int option = rnd.Next(0, 4);
+            //int option = 3;
             switch (option)
             {
-                case 0:
+                case 0://up
                     this._angle = 0f;
                     this._xPos = (float)rnd.Next(0, (int)this._maxX - _planeBitmap.Width);
                     this._yPos = this._maxY;
                     this._xSpeed = 0f;
-                    this._ySpeed = rnd.Next(2, 4);
+                    this._ySpeed = rnd.Next(-2,-1);
                     break;
+                case 1://right
+                    this._angle = 90f;
+                    this._xPos = 0 - _planeBitmap.Width;
+                    this._yPos = (float)rnd.Next(0, (int)this._maxY-_planeBitmap.Height);
+                    this._xSpeed = rnd.Next(1,2);
+                    this._ySpeed = 0f;
+                    break;
+                case 2://down
+                    this._angle = 180f;
+                    this._xPos = (float)rnd.Next(0, (int)this._maxX - _planeBitmap.Width);
+                    this._yPos = 0 - _planeBitmap.Height;
+                    this._xSpeed = 0f;
+                    this._ySpeed = rnd.Next(1,2);
+                    break;
+                case 3://left
+                    this._angle = 270f;
+                    this._xPos = this._maxX;
+                    this._yPos = (float)rnd.Next(0, (int)this._maxY - _planeBitmap.Height);
+                    this._xSpeed = rnd.Next(-2,-1);
+                    this._ySpeed = 0f;
+                    break;
+
+                    
 
 
                 default:
                     break;
             }
+        }
+
+        private Bitmap rotatePlane(float angle)
+        {
+            Bitmap returnBitmap = new Bitmap(_planeOriginal.Width, _planeOriginal.Height);
+            Graphics graphics = Graphics.FromImage(returnBitmap);
+            graphics.TranslateTransform((float)_planeOriginal.Width / 2, (float)_planeOriginal.Height / 2);
+            graphics.RotateTransform(angle);
+            graphics.TranslateTransform(-(float)_planeOriginal.Width / 2, -(float)_planeOriginal.Height / 2);
+            graphics.DrawImage(_planeOriginal, new Point(0, 0));
+            
+
+            return returnBitmap;
         }
 
         public void Draw(Graphics g)
@@ -53,6 +90,8 @@ namespace FlightControll
         {
             this._xPos += _xSpeed;
             this._yPos += _ySpeed;
+            _planeBitmap = rotatePlane(this._angle);
+            
         }
 
         public Point MiddlePoint()
