@@ -9,12 +9,12 @@ namespace FlightControll
 {
     public class Kollision
     {
-        List<Point> pointList;
-        float planeRadius;
+        private List<Point> _pointList;
+        float planeRadius =20;
 
         public Kollision()
         {
-            pointList = new List<Point>();
+            _pointList = new List<Point>();
         }
 
 
@@ -22,32 +22,31 @@ namespace FlightControll
 
 
 
-        public void Deteckt(float radius)
+        public void Deteckt(List<Point> pointlist)
         {
-            this.planeRadius = radius;
+            this._pointList = pointlist;
 
-            for (int idx = 0; idx < pointList.Count; idx++)
+            for (int idx = 0; idx < _pointList.Count; idx++)
             {
-                for (int ofc = 0; ofc < pointList.Count; ofc++)
+                for (int ofc = _pointList.Count-1; ofc > 0; ofc--)
                 {
-                    //if(pointList[idx].X + planeRadius > pointList[ofc].X - planeRadius)
-                    //{
+                    if (_pointList[idx].X + planeRadius  > _pointList[ofc].X - planeRadius && _pointList[idx].X+planeRadius < _pointList[ofc].X + planeRadius
+                        && _pointList[idx].Y + planeRadius > _pointList[ofc].Y -planeRadius && _pointList[idx].Y +planeRadius< _pointList[ofc].Y + planeRadius)
+                    {
 
-                    //    MessageBox.Show("Lukas");
-                    //}
+                        //Kollision
+                        
+                    }
                     
                 }
             }
 
 
 
-            pointList.Clear(); // Wichtig
+            
         }
 
-        public void GetPlanes(Point point)
-        {
-            pointList.Add(point);
-        }
+
 
 
     }

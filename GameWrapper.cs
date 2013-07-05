@@ -12,7 +12,9 @@ namespace FlightControll
         PictureBox picturebox;
         Timer spawnPlane;
         Timer reDraw;
+        Timer detectTimer;
         Kollision kollision;
+        List<Point> pointlist;
         
         
         
@@ -33,6 +35,7 @@ namespace FlightControll
             this.picturebox = picturebox;
             TimerInit();
             kollision = new Kollision();
+            pointlist = new List<Point>();
         }
 
         private void TimerInit()
@@ -43,12 +46,32 @@ namespace FlightControll
             reDraw.Start();
 
             spawnPlane = new Timer();
-            spawnPlane.Interval = 1000 * 10;
+            spawnPlane.Interval = 1000 * 2;
             spawnPlane.Tick += spawnPlane_Tick;
             spawnPlane.Start();
 
+            detectTimer = new Timer();
+            detectTimer.Interval = 100;
+            detectTimer.Tick += detectTimer_Tick;
+            detectTimer.Start();
+
 
             
+        }
+
+        void detectTimer_Tick(object sender, EventArgs e)
+        {
+            pointlist.Clear();
+            getPoints();
+            kollision.Deteckt(pointlist);
+        }
+
+        private void getPoints()
+        {
+            for (int i = 0; i < planes.Count; i++)
+            {
+                pointlist.Add(planes[i].MiddlePoint());
+            }
         }
 
         void spawnPlane_Tick(object sender, EventArgs e)
@@ -78,17 +101,9 @@ namespace FlightControll
 
             for (int idx = 0; idx < planes.Count; idx++)
             {
-                kollision.GetPlanes(planes[idx].MiddlePoint());
                 planes[idx].Draw(g);
                 
             }
-
-
-            if (planes.Count > 1)
-            {
-                kollision.Deteckt(planes[0].Radius);
-            }
-            
 
         }
 
@@ -96,6 +111,7 @@ namespace FlightControll
         {
             reDraw.Stop();
             spawnPlane.Stop();
+            detectTimer.Stop();
         }
 
 
