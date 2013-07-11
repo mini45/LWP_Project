@@ -11,7 +11,7 @@ namespace FlightControll
     {
         private List<Point> _pointList;
         float planeRadius =20;
-
+        
         public Kollision()
         {
             _pointList = new List<Point>();
@@ -22,7 +22,7 @@ namespace FlightControll
 
 
 
-        public void Deteckt(List<Point> pointlist)
+        public bool Deteckt(List<Point> pointlist)
         {
             this._pointList = pointlist;
 
@@ -35,6 +35,7 @@ namespace FlightControll
                     {
 
                         //Kollision
+                        return true;
                         
                     }
                     
@@ -42,7 +43,7 @@ namespace FlightControll
             }
 
 
-
+            return false;
             
         }
 

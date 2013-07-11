@@ -15,6 +15,7 @@ namespace FlightControll
         Timer detectTimer;
         Kollision kollision;
         List<Point> pointlist;
+        bool collide = false;
         
         
         
@@ -63,7 +64,11 @@ namespace FlightControll
         {
             pointlist.Clear();
             getPoints();
-            kollision.Deteckt(pointlist);
+            collide = kollision.Deteckt(pointlist);
+            if (collide)
+            {
+                WrapperStop();
+            }
         }
 
         private void getPoints()
