@@ -14,6 +14,7 @@ namespace FlightControll
         Timer reDraw;
         Timer detectTimer;
         Kollision kollision;
+        Runway runway;
         List<Point> pointlist;
         bool collide = false;
         
@@ -36,6 +37,7 @@ namespace FlightControll
             this.picturebox = picturebox;
             TimerInit();
             kollision = new Kollision();
+            runway = new Runway();
             pointlist = new List<Point>();
         }
 
@@ -64,6 +66,7 @@ namespace FlightControll
         {
             pointlist.Clear();
             getPoints();
+            
             collide = kollision.Deteckt(pointlist);
             if (collide)
             {
@@ -118,6 +121,9 @@ namespace FlightControll
             spawnPlane.Stop();
             detectTimer.Stop();
         }
+
+
+
 
 
 

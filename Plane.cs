@@ -11,6 +11,18 @@ namespace FlightControll
         private Bitmap _planeBitmap = new Bitmap("../../plane_picture.png");
         private Bitmap _planeOriginal = new Bitmap("../../plane_picture.png");
         private float _xSpeed, _ySpeed, _xPos, _yPos, _radius = 20, _angle;
+
+        public float YSpeed
+        {
+            get { return _ySpeed; }
+            set { _ySpeed = value; }
+        }
+
+        public float XSpeed
+        {
+            get { return _xSpeed; }
+            set { _xSpeed = value; }
+        }
         private List<Point> _way;
         private float _maxX, _maxY;
 
